@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title>Points on a map</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      h1, h2, h3, p , img{
+      margin: 5px;
+      align:left;
+      padding-left: 1%;
+      }
+
+      .mapboxgl-popup-content {
+      padding: 0%;
+      margin-left: 10%;
+      margin-top: 10%;
+      width: 100%
+      }
+      #map {
+        width: 100%;
+        height: 600px;
+      }
+      .mapboxgl-popup {
+        min-width: 25%;
+        max-height: 100%;
+
+
+}
+    </style>
+  </head>
+  <body>
+
+    <div id='map'></div>
+    <div id='map' style='position:absolute; width: 400px; height: 300px;'></div>
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoibmV3dHJhbCIsImEiOiJjazJrcDY4Y2gxMmg3M2JvazU4OXV6NHZqIn0.VO5GkvBq_PSJHvX7T8H9jQ';
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/newtral/cknafyinw3d1z17rwphz8zmp7',
+      center: [-3.7492,40.4637],
+      zoom: 8,
+    });
+
+//display pop-up
+
+    map.on('click', function(e) {
+  var features = map.queryRenderedFeatures(e.point, {
+    layers: ['datos'] // replace this with the name of the layer
+  });
+
+  if (!features.length) {
+    return;
+  }
+
+  var feature = features[0];
+
+  var popup = new mapboxgl.Popup({ offset: [] })
+    .setLngLat([0, 0])
+    .setHTML(`<h2 style="background-color:#662E64;color:white; margin: 0; padding: 5px;">Unidas Podemos</h2><img alt="Qries" src="https://github.com/crispdv9/images/blob/main/ima%CC%81genes%20partidos/pablo_iglesias_3.png?raw=true"
+         width=20%" height="20%"><h3>Candidato</h3><p>${feature.properties.Político}</p></h3><p>${feature.properties.Fecha}</p><h3>Lugar</h3><p>${feature.properties.Ubicación}, ${feature.properties.Municipio}</p><h3>Descripción del acto</h3><p> ${feature.properties.Descripcióndelacto}<br> ${feature.properties.Ubicación}</p><h3>Resultados 2019</h3><p> ${feature.properties.Ubicación}<br> ${feature.properties.Ubicación}</p>`)
+    .addTo(map);
+});
+
+map.on('click', function(e) {
+var features = map.queryRenderedFeatures(e.point, {
+layers: ['ciudadanos'] // replace this with the name of the layer
+});
+
+if (!features.length) {
+return;
+}
+
+var feature = features[0];
+
+var popup = new mapboxgl.Popup({ offset: [] })
+.setLngLat([0, 0])
+.setHTML(`<h2 style="background-color:#FF9D00;color:white; margin: 0; padding: 5px;">Ciudadanos</h2><h3>Candidato</h3><p>${feature.properties.Político}</p></h3><p>${feature.properties.Fecha}</p><h3>Lugar</h3><p>${feature.properties.Ubicación}, ${feature.properties.Municipio}</p><h3>Descripción del acto</h3><p> ${feature.properties.Descripcióndelacto}<br> ${feature.properties.Ubicación}</p><h3>Resultados 2019</h3><p> ${feature.properties.Ubicación}<br> ${feature.properties.Ubicación}</p>`)
+.addTo(map);
+});
+
+
+
+map.addControl(new mapboxgl.NavigationControl());
+
+  </script>
+  </body>
+
+
+</html>
